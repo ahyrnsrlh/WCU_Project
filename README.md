@@ -85,7 +85,7 @@ Untuk mengubah rentang halaman yang akan di-scrape, buka file `main.py` dan ubah
 
 ```python
 START_PAGE = 2503  # Halaman awal
-END_PAGE = 2505    # Halaman akhir
+END_PAGE = 3336    # Halaman akhir
 ```
 
 ### Mengubah Waktu Tunggu
