@@ -21,6 +21,9 @@ def scrape_articles_with_login(start_page, end_page, email, password):
         end_page: The last page to scrape (inclusive)
         email: Email for Sinta login
         password: Password for Sinta login
+        
+    Returns:
+        str: Path to the CSV file containing scraped articles
     """
     # SETUP DRIVER
     options = Options()
@@ -31,7 +34,7 @@ def scrape_articles_with_login(start_page, end_page, email, password):
         # Login to Sinta
         if not login(driver, email, password):
             print("Login failed. Exiting.")
-            return
+            return None
         
         # Track unique articles using a composite key of normalized title and year
         unique_article_keys = set()
@@ -68,7 +71,7 @@ def scrape_articles_with_login(start_page, end_page, email, password):
                         print("Session expired. Logging in again.")
                         if not login(driver, email, password):
                             print("Re-login failed. Exiting.")
-                            return
+                            return None
                     
                     articles = scrape_page(driver, page_num)
                     if articles:
@@ -115,8 +118,11 @@ def scrape_articles_with_login(start_page, end_page, email, password):
         print(f"Successfully scraped {len(final_articles)} unique articles from pages {start_page} to {end_page}")
         print(f"All data saved to {output_filename}")
         
+        return output_filename
+        
     except Exception as e:
         print(f"Error during scraping: {e}")
+        return None
     
     finally:
         driver.quit()
